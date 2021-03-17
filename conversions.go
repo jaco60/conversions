@@ -19,6 +19,7 @@ func NewConversion(nb int, to int) *Conversion {
 		return nil
 	}
 	res := &Conversion{result: []byte{}, base: byte(to)}
+	// Conversion par divisions successives
 	var quot int
 	for quot = nb; quot > 1; quot /= to {
 		res.result = append([]byte{byte(quot % to)}, res.result...)
@@ -31,6 +32,7 @@ func NewConversion(nb int, to int) *Conversion {
 func (conv *Conversion) ToDec() int {
 	res := 0
 	lg := len(conv.result)
+	// Conversion par schéma de Hörner
 	for i, val := range conv.result {
 		res += int(val) * int(math.Pow(float64(conv.base), float64(lg-i-1)))
 	}
